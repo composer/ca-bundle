@@ -153,7 +153,7 @@ class CaBundle
         // assume the CA is valid if php is vulnerable to
         // https://www.sektioneins.de/advisories/advisory-012013-php-openssl_x509_parse-memory-corruption-vulnerability.html
         if (!static::isOpensslParseSafe()) {
-            if (!$warned) {
+            if (!$warned && $logger) {
                 $logger->warning(sprintf(
                     'Your version of PHP, %s, is affected by CVE-2013-6420 and cannot safely perform certificate validation, we strongly suggest you upgrade.',
                     PHP_VERSION
@@ -166,7 +166,9 @@ class CaBundle
             $isValid = (bool) openssl_x509_parse($contents);
         }
 
-        $logger->debug('Checked CA file '.realpath($filename).': '.($isValid ? 'valid' : 'invalid'));
+        if ($logger) {
+            $logger->debug('Checked CA file '.realpath($filename).': '.($isValid ? 'valid' : 'invalid'));
+        }
 
         return static::$caFileValidity[$filename] = $isValid;
     }
