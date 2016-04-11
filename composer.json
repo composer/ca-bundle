@@ -22,7 +22,8 @@
         "issues": "https://github.com/composer/ca-bundle/issues"
     },
     "require": {
-        "php": "^5.3.2 || ^7.0"
+        "php": "^5.3.2 || ^7.0",
+        "psr/log": "^1.0"
     },
     "require-dev": {
         "symfony/process": "^2.5 || ^3.0"
