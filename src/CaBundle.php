@@ -63,32 +63,32 @@ class CaBundle
      */
     public static function getSystemCaRootBundlePath(LoggerInterface $logger = null)
     {
-        if (static::$caPath !== null) {
-            return static::$caPath;
+        if (self::$caPath !== null) {
+            return self::$caPath;
         }
 
         // If SSL_CERT_FILE env variable points to a valid certificate/bundle, use that.
         // This mimics how OpenSSL uses the SSL_CERT_FILE env variable.
         $envCertFile = getenv('SSL_CERT_FILE');
         if ($envCertFile && is_readable($envCertFile) && static::validateCaFile($envCertFile, $logger)) {
-            return static::$caPath = $envCertFile;
+            return self::$caPath = $envCertFile;
         }
 
         // If SSL_CERT_DIR env variable points to a valid certificate/bundle, use that.
         // This mimics how OpenSSL uses the SSL_CERT_FILE env variable.
         $envCertDir = getenv('SSL_CERT_DIR');
         if ($envCertDir && is_dir($envCertDir) && is_readable($envCertDir)) {
-            return static::$caPath = $envCertDir;
+            return self::$caPath = $envCertDir;
         }
 
         $configured = ini_get('openssl.cafile');
         if ($configured && strlen($configured) > 0 && is_readable($configured) && static::validateCaFile($configured, $logger)) {
-            return static::$caPath = $configured;
+            return self::$caPath = $configured;
         }
 
         $configured = ini_get('openssl.capath');
         if ($configured && is_dir($configured) && is_readable($configured)) {
-            return static::$caPath = $configured;
+            return self::$caPath = $configured;
         }
 
         $caBundlePaths = array(
@@ -106,18 +106,18 @@ class CaBundle
 
         foreach ($caBundlePaths as $caBundle) {
             if (@is_readable($caBundle) && static::validateCaFile($caBundle, $logger)) {
-                return static::$caPath = $caBundle;
+                return self::$caPath = $caBundle;
             }
         }
 
         foreach ($caBundlePaths as $caBundle) {
             $caBundle = dirname($caBundle);
             if (@is_dir($caBundle) && glob($caBundle.'/*')) {
-                return static::$caPath = $caBundle;
+                return self::$caPath = $caBundle;
             }
         }
 
-        return static::$caPath = static::getBundledCaBundlePath(); // Bundled CA file, last resort
+        return self::$caPath = static::getBundledCaBundlePath(); // Bundled CA file, last resort
     }
 
     /**
@@ -144,8 +144,8 @@ class CaBundle
     {
         static $warned = false;
 
-        if (isset(static::$caFileValidity[$filename])) {
-            return static::$caFileValidity[$filename];
+        if (isset(self::$caFileValidity[$filename])) {
+            return self::$caFileValidity[$filename];
         }
 
         $contents = file_get_contents($filename);
@@ -170,7 +170,7 @@ class CaBundle
             $logger->debug('Checked CA file '.realpath($filename).': '.($isValid ? 'valid' : 'invalid'));
         }
 
-        return static::$caFileValidity[$filename] = $isValid;
+        return self::$caFileValidity[$filename] = $isValid;
     }
 
     /**
@@ -283,8 +283,8 @@ EOT;
      */
     public static function reset()
     {
-        static::$caFileValidity = array();
-        static::$caPath = null;
-        static::$useOpensslParse = null;
+        self::$caFileValidity = array();
+        self::$caPath = null;
+        self::$useOpensslParse = null;
     }
 }
