@@ -36,6 +36,34 @@ Basic usage
 - `CaBundle::reset()`: Resets the static caches
 
 
+## To use with curl
+
+```php
+$curl = curl_init("https://example.org/");
+curl_setopt($curl, CURLOPT_CAINFO, \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath());
+$result = curl_exec($curl);
+```
+
+## To use with php streams
+
+```php
+$opts = array(
+    'http' => array(
+        'method' => "GET"
+    )
+);
+
+$caPath = \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()
+if (is_dir($caPath)) {
+    $opts['ssl']['capath'] = $caPath;
+} else {
+    $opts['ssl']['cafile'] = $caPath;
+}
+
+$context = stream_context_create($opts);
+$result = file_get_contents('https://example.com', false, $context);
+```
+
 License
 -------
 
