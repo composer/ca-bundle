@@ -102,6 +102,7 @@ class CaBundle
             '/usr/share/ssl/certs/ca-bundle.crt', // Really old RedHat?
             '/etc/ssl/cert.pem', // OpenBSD
             '/usr/local/etc/ssl/cert.pem', // FreeBSD 10.x
+            '/usr/local/etc/openssl/cert.pem', // OS X homebrew, openssl package
         );
 
         foreach ($caBundlePaths as $caBundle) {
