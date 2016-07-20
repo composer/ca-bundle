@@ -27,6 +27,7 @@
         "php": "^5.3.2 || ^7.0"
     },
     "require-dev": {
+        "psr/log": "^1.0",
         "symfony/process": "^2.5 || ^3.0"
     },
     "suggest": {
