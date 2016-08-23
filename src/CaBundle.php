@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of composer/semver.
+ * This file is part of composer/ca-bundle.
  *
  * (c) Composer <https://github.com/composer>
  *
