@@ -53,7 +53,7 @@ $opts = array(
     )
 );
 
-$caPath = \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()
+$caPath = \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath();
 if (is_dir($caPath)) {
     $opts['ssl']['capath'] = $caPath;
 } else {
