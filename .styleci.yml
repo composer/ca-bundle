@@ -10,7 +10,5 @@ enabled:
   - php_unit_construct
   - php_unit_strict
 finder:
-  exclude:
-    - "example"
   name:
     - "*.php"
