@@ -1,0 +1,13 @@
+preset: psr2
+
+enabled:
+  - combine_consecutive_unsets
+  - newline_after_open_tag
+  - no_php4_constructor
+  - no_useless_else
+  - ordered_class_elements
+  - ordered_use
+  - strict
+  - strict_param
+  - php_unit_construct
+  - php_unit_strict
