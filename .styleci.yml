@@ -1,3 +1,5 @@
+preset: psr2
+
 enabled:
   - combine_consecutive_unsets
   - newline_after_open_tag
