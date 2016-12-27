@@ -2,9 +2,9 @@
 
 namespace Composer\CaBundle;
 
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Process\PhpProcess;
-use PHPUnit\Framework\TestCase;
 
 class CaBundleTest extends TestCase
 {
@@ -36,20 +36,20 @@ class CaBundleTest extends TestCase
         $this->setEnv($certDir.$certPath);
         $sslCertDir = $caBundle::getSystemCaRootBundlePath(null);
 
-        $this->assertTrue(file_exists($sslCertDir));    
+        $this->assertTrue(file_exists($sslCertDir));
     }
 
     public function testCertFile()
     {
-         $caBundle = new CaBundle();
-         $caBundle::reset();
-         $certFile = 'SSL_CERT_FILE=';
-         $certFilePath = __DIR__.'/../res/cacert.pem';
-         $this->resetEnv();
-         $this->setEnv($certFile.$certFilePath);
-         $sslCertFile = $caBundle::getSystemCaRootBundlePath(null);
+        $caBundle = new CaBundle();
+        $caBundle::reset();
+        $certFile = 'SSL_CERT_FILE=';
+        $certFilePath = __DIR__.'/../res/cacert.pem';
+        $this->resetEnv();
+        $this->setEnv($certFile.$certFilePath);
+        $sslCertFile = $caBundle::getSystemCaRootBundlePath(null);
 
-         $this->assertTrue(file_exists($sslCertFile));
+        $this->assertTrue(file_exists($sslCertFile));
     }
 
     public function testSslCaFile()
@@ -90,7 +90,7 @@ class CaBundleTest extends TestCase
         $stub = $this->createMock(CaBundleMock::class);
         $stub->method('isOpensslParseSafe')->willReturn(true);
         
-        $this->assertEquals(true, $stub->isOpensslParseSafe());
+        $this->assertTrue($stub->isOpensslParseSafe());
     }
 
     public function testIsOpensslParseSafeFalse()
@@ -98,7 +98,7 @@ class CaBundleTest extends TestCase
         $stub = $this->createMock(CaBundleMock::class);
         $stub->method('isOpensslParseSafe')->willReturn(false);
         
-        $this->assertEquals(false, $stub->isOpensslParseSafe());
+        $this->assertFalse($stub->isOpensslParseSafe());
     }
 
     public function setEnv($envString)
