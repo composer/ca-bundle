@@ -13,7 +13,7 @@ class CaBundleTest extends TestCase
         $caBundle = new CaBundle();
         $this->resetEnv();
         $caPath = $caBundle::getSystemCaRootBundlePath(null);
-        
+
         $this->assertTrue(file_exists($caPath));
     }
 
@@ -22,7 +22,7 @@ class CaBundleTest extends TestCase
         $caBundle = new CaBundle();
         $this->resetEnv();
         $caPathNoNull = $caBundle::getSystemCaRootBundlePath(null);
-        
+
         $this->assertTrue(file_exists($caPathNoNull));
     }
 
@@ -87,17 +87,17 @@ class CaBundleTest extends TestCase
 
     public function testIsOpensslParseSafeTrue()
     {
-        $stub = $this->createMock(CaBundleMock::class);
+        $stub = $this->createMock('Composer\CaBundle\CaBundleMock');
         $stub->method('isOpensslParseSafe')->willReturn(true);
-        
+
         $this->assertTrue($stub->isOpensslParseSafe());
     }
 
     public function testIsOpensslParseSafeFalse()
     {
-        $stub = $this->createMock(CaBundleMock::class);
+        $stub = $this->createMock('Composer\CaBundle\CaBundleMock');
         $stub->method('isOpensslParseSafe')->willReturn(false);
-        
+
         $this->assertFalse($stub->isOpensslParseSafe());
     }
 
