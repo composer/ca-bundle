@@ -41,7 +41,7 @@ Basic usage
 ```php
 $curl = curl_init("https://example.org/");
 
-$caPathOrFile = \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath());
+$caPathOrFile = \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath();
 if (is_dir($caPathOrFile) || (is_link($caPathOrFile) && is_dir(readlink($caPathOrFile)))) {
     curl_setopt($curl, CURLOPT_CAPATH, $caPathOrFile);
 } else {
@@ -60,7 +60,7 @@ $opts = array(
     )
 );
 
-$caPathOrFile = \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath());
+$caPathOrFile = \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath();
 if (is_dir($caPathOrFile) || (is_link($caPathOrFile) && is_dir(readlink($caPathOrFile)))) {
     $opts['ssl']['capath'] = $caPathOrFile;
 } else {
