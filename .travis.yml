@@ -6,17 +6,16 @@ dist: trusty
 
 git:
   depth: 5
-  
+
 cache:
   directories:
     - $HOME/.composer/cache
 
 php:
-  - 5.4
-  - 5.5
   - 5.6
   - 7.0
   - 7.1
+  - 7.2
   - nightly
 
 env:
@@ -26,7 +25,7 @@ env:
 matrix:
   include:
     - dist: precise
-      php: 5.3
+      php: 5.6
   fast_finish: true
   allow_failures:
     - php: nightly
