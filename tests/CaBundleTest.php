@@ -4,8 +4,9 @@ namespace Composer\CaBundle;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Process\PhpProcess;
+use PHPUnit\Framework\TestCase;
 
-class CaBundleTest extends \PHPUnit_Framework_TestCase
+class CaBundleTest extends TestCase
 {
     public function testCaPath()
     {
@@ -86,7 +87,7 @@ class CaBundleTest extends \PHPUnit_Framework_TestCase
 
     public function testIsOpensslParseSafeTrue()
     {
-        $stub = $this->getMock('Composer\CaBundle\CaBundleMock');
+        $stub = $this->createMock('Composer\CaBundle\CaBundleMock');
         $stub->method('isOpensslParseSafe')->willReturn(true);
 
         $this->assertTrue($stub->isOpensslParseSafe());
@@ -94,7 +95,7 @@ class CaBundleTest extends \PHPUnit_Framework_TestCase
 
     public function testIsOpensslParseSafeFalse()
     {
-        $stub = $this->getMock('Composer\CaBundle\CaBundleMock');
+        $stub = $this->createMock('Composer\CaBundle\CaBundleMock');
         $stub->method('isOpensslParseSafe')->willReturn(false);
 
         $this->assertFalse($stub->isOpensslParseSafe());
