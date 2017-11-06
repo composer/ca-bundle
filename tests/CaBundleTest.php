@@ -4,8 +4,9 @@ namespace Composer\CaBundle;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Process\PhpProcess;
+use PHPUnit\Framework\TestCase;
 
-class CaBundleTest extends \PHPUnit_Framework_TestCase
+class CaBundleTest extends TestCase
 {
     public function testCaPath()
     {
