@@ -14,7 +14,7 @@ class CaBundleTest extends TestCase
         $this->resetEnv();
         $caPath = $caBundle::getSystemCaRootBundlePath(null);
 
-        $this->assertTrue(file_exists($caPath));
+        $this->assertFileExists($caPath);
     }
 
     public function testCaPathNotNull()
@@ -23,7 +23,7 @@ class CaBundleTest extends TestCase
         $this->resetEnv();
         $caPathNoNull = $caBundle::getSystemCaRootBundlePath(null);
 
-        $this->assertTrue(file_exists($caPathNoNull));
+        $this->assertFileExists($caPathNoNull);
     }
 
     public function testCertDir()
@@ -36,7 +36,7 @@ class CaBundleTest extends TestCase
         $this->setEnv($certDir.$certPath);
         $sslCertDir = $caBundle::getSystemCaRootBundlePath(null);
 
-        $this->assertTrue(file_exists($sslCertDir));
+        $this->assertFileExists($sslCertDir);
     }
 
     public function testCertFile()
@@ -49,7 +49,7 @@ class CaBundleTest extends TestCase
         $this->setEnv($certFile.$certFilePath);
         $sslCertFile = $caBundle::getSystemCaRootBundlePath(null);
 
-        $this->assertTrue(file_exists($sslCertFile));
+        $this->assertFileExists($sslCertFile);
     }
 
     public function testSslCaFile()
@@ -61,7 +61,7 @@ class CaBundleTest extends TestCase
         $this->resetEnv();
         $openCaFile = $caBundle::getSystemCaRootBundlePath(null);
 
-        $this->assertTrue(file_exists($openCaFile));
+        $this->assertFileExists($openCaFile);
     }
 
     public function testSslCaPath()
@@ -73,7 +73,7 @@ class CaBundleTest extends TestCase
         ini_set($sslCaPath, $certPath);
         $openCaPath = $caBundle::getSystemCaRootBundlePath(null);
 
-        $this->assertTrue(file_exists($openCaPath));
+        $this->assertFileExists($openCaPath);
     }
 
     public function testValidateCaFile()
@@ -87,7 +87,7 @@ class CaBundleTest extends TestCase
 
     public function testIsOpensslParseSafeTrue()
     {
-        $stub = $this->getMock('Composer\CaBundle\CaBundleMock');
+        $stub = $this->getMockBuilder('Composer\CaBundle\CaBundleMock')->getMock();
         $stub->method('isOpensslParseSafe')->willReturn(true);
 
         $this->assertTrue($stub->isOpensslParseSafe());
@@ -95,7 +95,7 @@ class CaBundleTest extends TestCase
 
     public function testIsOpensslParseSafeFalse()
     {
-        $stub = $this->getMock('Composer\CaBundle\CaBundleMock');
+        $stub = $this->getMockBuilder('Composer\CaBundle\CaBundleMock')->getMock();
         $stub->method('isOpensslParseSafe')->willReturn(false);
 
         $this->assertFalse($stub->isOpensslParseSafe());
