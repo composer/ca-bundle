@@ -27,7 +27,7 @@ Requirements
 Basic usage
 -----------
 
-# `Composer\CaBundle\CaBundle`
+### `Composer\CaBundle\CaBundle`
 
 - `CaBundle::getSystemCaRootBundlePath()`: Returns the system CA bundle path, or a path to the bundled one as fallback
 - `CaBundle::getBundledCaBundlePath()`: Returns the path to the bundled CA file
@@ -36,7 +36,7 @@ Basic usage
 - `CaBundle::reset()`: Resets the static caches
 
 
-## To use with curl
+#### To use with curl
 
 ```php
 $curl = curl_init("https://example.org/");
@@ -51,7 +51,7 @@ if (is_dir($caPathOrFile) || (is_link($caPathOrFile) && is_dir(readlink($caPathO
 $result = curl_exec($curl);
 ```
 
-## To use with php streams
+#### To use with php streams
 
 ```php
 $opts = array(
@@ -71,7 +71,7 @@ $context = stream_context_create($opts);
 $result = file_get_contents('https://example.com', false, $context);
 ```
 
-## To use with Guzzle
+#### To use with Guzzle
 
 ```php
 $client = new \GuzzleHttp\Client([
