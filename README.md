@@ -31,7 +31,7 @@ Basic usage
 
 - `CaBundle::getSystemCaRootBundlePath()`: Returns the system CA bundle path, or a path to the bundled one as fallback
 - `CaBundle::getBundledCaBundlePath()`: Returns the path to the bundled CA file
-- `CaBundle::validateCaFile($filename)`: Validates a CA file using opensl_x509_parse only if it is safe to use
+- `CaBundle::validateCaFile($filename)`: Validates a CA file using openssl_x509_parse only if it is safe to use
 - `CaBundle::isOpensslParseSafe()`: Test if it is safe to use the PHP function openssl_x509_parse()
 - `CaBundle::reset()`: Resets the static caches
 
