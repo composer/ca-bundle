@@ -42,7 +42,7 @@ Basic usage
 $curl = curl_init("https://example.org/");
 
 $caPathOrFile = \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath();
-if (is_dir($caPathOrFile)){
+if (is_dir($caPathOrFile)) {
     curl_setopt($curl, CURLOPT_CAPATH, $caPathOrFile);
 } else {
     curl_setopt($curl, CURLOPT_CAINFO, $caPathOrFile);
