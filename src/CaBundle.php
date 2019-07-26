@@ -134,7 +134,8 @@ class CaBundle
         // see https://github.com/composer/ca-bundle/issues/10
         if (0 === strpos($caBundleFile, 'phar://')) {
             $file = tmpfile();
-            $filePath = stream_get_meta_data($file)['uri'];
+            $filePath = stream_get_meta_data($file);
+            $filePath = $filePath['uri'];
             copy($caBundleFile, $filePath);
 
             $caBundleFile = $filePath;
