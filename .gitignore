@@ -1,3 +1,5 @@
 vendor/
 composer.lock
 .php_cs.cache
+build/
+report/
