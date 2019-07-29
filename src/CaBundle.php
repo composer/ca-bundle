@@ -304,13 +304,13 @@ EOT;
         self::$useOpensslParse = null;
     }
 
-    private static function caFileUsable($envCertFile, LoggerInterface $logger = null)
+    private static function caFileUsable($certFile, LoggerInterface $logger = null)
     {
-        return $envCertFile && is_readable($envCertFile) && static::validateCaFile($envCertFile, $logger);
+        return $certFile && is_file($certFile) && is_readable($certFile) && static::validateCaFile($certFile, $logger);
     }
 
-    private static function caDirUsable($envCertDir)
+    private static function caDirUsable($certDir)
     {
-        return $envCertDir && is_dir($envCertDir) && is_readable($envCertDir);
+        return $certDir && is_dir($certDir) && is_readable($certDir);
     }
 }
