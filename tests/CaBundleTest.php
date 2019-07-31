@@ -101,6 +101,16 @@ class CaBundleTest extends TestCase
         $this->assertFalse($stub->isOpensslParseSafe());
     }
 
+    public function testOpenBaseDir()
+    {
+        $oldValue = ini_get('open_basedir');
+        ini_set('open_basedir', realpath(__DIR__ . '/../'));
+        $certFilePath = CaBundle::getSystemCaRootBundlePath();
+        $validResult = CaBundle::validateCaFile($certFilePath, null);
+        $this->assertTrue($validResult);
+        ini_set('open_basedir', $oldValue);
+    }
+
     public function setEnv($envString)
     {
         putenv($envString);
