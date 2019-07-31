@@ -306,11 +306,11 @@ EOT;
 
     private static function caFileUsable($certFile, LoggerInterface $logger = null)
     {
-        return $certFile && is_file($certFile) && is_readable($certFile) && static::validateCaFile($certFile, $logger);
+        return $certFile && @is_file($certFile) && @is_readable($certFile) && static::validateCaFile($certFile, $logger);
     }
 
     private static function caDirUsable($certDir)
     {
-        return $certDir && is_dir($certDir) && is_readable($certDir);
+        return $certDir && @is_dir($certDir) && @is_readable($certDir);
     }
 }
