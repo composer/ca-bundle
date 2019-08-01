@@ -80,12 +80,6 @@ class CaBundle
         $caBundlePaths[] = ini_get('openssl.cafile');
         $caBundlePaths[] = ini_get('openssl.capath');
 
-        if (function_exists('openssl_get_cert_locations')) {
-            $locations = openssl_get_cert_locations();
-            $caBundlePaths[] = $locations['default_cert_file'];
-            $caBundlePaths[] = $locations['default_cert_dir'];
-        }
-
         $otherLocations = array(
             '/etc/pki/tls/certs/ca-bundle.crt', // Fedora, RHEL, CentOS (ca-certificates package)
             '/etc/ssl/certs/ca-certificates.crt', // Debian, Ubuntu, Gentoo, Arch Linux (ca-certificates package)
