@@ -77,14 +77,14 @@ class CaBundle
         // This mimics how OpenSSL uses the SSL_CERT_FILE env variable.
         $caBundlePaths[] = getenv('SSL_CERT_DIR');
 
+        $caBundlePaths[] = ini_get('openssl.cafile');
+        $caBundlePaths[] = ini_get('openssl.capath');
+
         if (function_exists('openssl_get_cert_locations')) {
             $locations = openssl_get_cert_locations();
             $caBundlePaths[] = $locations['default_cert_file'];
             $caBundlePaths[] = $locations['default_cert_dir'];
         }
-
-        $caBundlePaths[] = ini_get('openssl.cafile');
-        $caBundlePaths[] = ini_get('openssl.capath');
 
         $otherLocations = array(
             '/etc/pki/tls/certs/ca-bundle.crt', // Fedora, RHEL, CentOS (ca-certificates package)
@@ -311,6 +311,6 @@ EOT;
 
     private static function caDirUsable($certDir)
     {
-        return $certDir && @is_dir($certDir) && @is_readable($certDir);
+        return $certDir && @is_dir($certDir) && @is_readable($certDir) && glob($certDir . '/*');
     }
 }
