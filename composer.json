@@ -3,7 +3,7 @@
     "description": "Lets you find a path to the system CA bundle, and includes a fallback to the Mozilla CA bundle.",
     "type": "library",
     "license": "MIT",
-    "minimal-dependency": "dev",
+    "minimum-stability": "dev",
     "keywords": [
         "cabundle",
         "cacert",
