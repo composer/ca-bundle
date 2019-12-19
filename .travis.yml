@@ -19,7 +19,7 @@ matrix:
       php: 5.4
     - dist: trusty
       php: 5.5
-    - dist: trusty
+    - dist: xenial
       php: 5.6
     - dist: xenial
       php: 7.0
