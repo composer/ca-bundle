@@ -71,11 +71,15 @@ class CaBundle
 
         // If SSL_CERT_FILE env variable points to a valid certificate/bundle, use that.
         // This mimics how OpenSSL uses the SSL_CERT_FILE env variable.
-        $caBundlePaths[] = getenv('SSL_CERT_FILE');
+        if (isset($_SERVER['SSL_CERT_FILE'])) {
+            $caBundlePaths[] = $_SERVER['SSL_CERT_FILE'];
+        }
 
         // If SSL_CERT_DIR env variable points to a valid certificate/bundle, use that.
         // This mimics how OpenSSL uses the SSL_CERT_FILE env variable.
-        $caBundlePaths[] = getenv('SSL_CERT_DIR');
+        if (isset($_SERVER['SSL_CERT_FILE'])) {
+            $caBundlePaths[] = $_SERVER['SSL_CERT_DIR'];
+        }
 
         $caBundlePaths[] = ini_get('openssl.cafile');
         $caBundlePaths[] = ini_get('openssl.capath');
