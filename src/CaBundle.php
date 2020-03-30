@@ -174,6 +174,7 @@ class CaBundle
 
             $isValid = !empty($contents);
         } else {
+            $contents = preg_replace("/^(\\-+(?:BEGIN|END))\\s+TRUSTED\\s+(CERTIFICATE\\-+)\$/m", '$1 $2', $contents);
             $isValid = (bool) openssl_x509_parse($contents);
         }
 
