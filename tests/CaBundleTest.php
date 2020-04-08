@@ -85,6 +85,15 @@ class CaBundleTest extends TestCase
         $this->assertTrue($validResult);
     }
 
+    public function testValidateTrustedCaFile()
+    {
+        $certFilePath = __DIR__.'/Fixtures/ca-bundle.trust.crt';
+        $caBundle = new CaBundle();
+        $validResult = $caBundle::validateCaFile($certFilePath, null);
+
+        $this->assertTrue($validResult);
+    }
+
     public function testIsOpensslParseSafeTrue()
     {
         $stub = $this->getMockBuilder('Composer\CaBundle\CaBundleMock')->getMock();
