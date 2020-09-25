@@ -79,6 +79,7 @@ class CaBundle
 
         $caBundlePaths[] = ini_get('openssl.cafile');
         $caBundlePaths[] = ini_get('openssl.capath');
+        $caBundlePaths[] = ini_get('curl.cainfo');
 
         $otherLocations = array(
             '/etc/pki/tls/certs/ca-bundle.crt', // Fedora, RHEL, CentOS (ca-certificates package)
