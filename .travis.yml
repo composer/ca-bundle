@@ -33,9 +33,43 @@ matrix:
       php: 7.4
     - dist: bionic
       php: nightly
+#Added power jobs
+    - dist: xenial
+      arch: ppc64le
+      php: 5.6
+    - dist: xenial
+      arch: ppc64le
+      php: 7.0
+    - dist: bionic
+      arch: ppc64le
+      php: 7.1
+    - dist: bionic
+      arch: ppc64le
+      php: 7.2
+    - dist: bionic
+      arch: ppc64le
+      php: 7.4
+    - dist: bionic
+      arch: ppc64le
+      php: nightly
   fast_finish: true
   allow_failures:
     - php: nightly
+# Disable version 5.3, 5.4, 5.5, 7.3
+jobs: 
+  exclude:
+    - dist: precise
+      arch: ppc64le
+      php: 5.3
+    - dist: trusty
+      arch: ppc64le
+      php: 5.4
+    - dist: trusty
+      arch: ppc64le
+      php: 5.5
+    - dist: bionic
+      arch: ppc64le
+      php: 7.3
 
 install:
   - mkdir -p ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d && echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
