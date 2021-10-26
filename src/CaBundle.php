@@ -360,7 +360,7 @@ EOT;
     }
 
     /**
-     * @param  string|false $certFile
+     * @param  string $certFile
      * @param  LoggerInterface|null $logger
      * @return bool
      */
@@ -375,7 +375,7 @@ EOT;
     }
 
     /**
-     * @param  string|false $certDir
+     * @param  string $certDir
      * @param  LoggerInterface|null $logger
      * @return bool
      */
@@ -390,7 +390,7 @@ EOT;
     }
 
     /**
-     * @param  string|false $certFileOrDir
+     * @param  string $certFileOrDir
      * @param  LoggerInterface|null $logger
      * @return bool
      */
@@ -411,6 +411,7 @@ EOT;
      */
     private static function glob($pattern, LoggerInterface $logger = null)
     {
+        $message = '';
         $error = false;
 
         $certs = glob($pattern);
