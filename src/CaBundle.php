@@ -411,24 +411,21 @@ EOT;
      */
     private static function glob($pattern, LoggerInterface $logger = null)
     {
-        $message = '';
-        $error = false;
-
         $certs = glob($pattern);
         if ($certs === false) {
-            $message = sprintf("An error occurred while trying to find certificates for pattern: %s", $pattern);
-            $error = true;
+            if ($logger) {
+                $logger->debug(sprintf("An error occurred while trying to find certificates for pattern: %s", $pattern));
+            }
+            return false;
         }
 
-        if (!$error && empty($certs)) {
-            $message = sprintf("No CA files found for pattern: %s", $pattern);
-            $error = true;
+        if (count($certs) === 0) {
+            if ($logger) {
+                $logger->debug(sprintf("No CA files found for pattern: %s", $pattern));
+            }
+            return false;
         }
 
-        if ($error && $logger) {
-            $logger->debug($message);
-        }
-
-        return $error;
+        return true;
     }
 }
