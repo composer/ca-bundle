@@ -368,7 +368,7 @@ EOT;
     {
         $isFile = @is_file($certFile);
         if (!$isFile && $logger) {
-            $logger->debug(sprintf('Checked CA file %s does not exist or it is not a file.', realpath($certFile)));
+            $logger->debug(sprintf('Checked CA file %s does not exist or it is not a file.', $certFile));
         }
 
         return $isFile;
@@ -383,7 +383,7 @@ EOT;
     {
         $isDir = @is_dir($certDir);
         if (!$isDir && $logger) {
-            $logger->debug(sprintf('Checked directory %s does not exist or it is not a directory.', realpath($certDir)));
+            $logger->debug(sprintf('Checked directory %s does not exist or it is not a directory.', $certDir));
         }
 
         return $isDir;
@@ -398,7 +398,7 @@ EOT;
     {
         $isReadable = @is_readable($certFileOrDir);
         if (!$isReadable && $logger) {
-            $logger->debug(sprintf('Checked file or directory %s is not readable.', realpath($certFileOrDir)));
+            $logger->debug(sprintf('Checked file or directory %s is not readable.', $certFileOrDir));
         }
 
         return $isReadable;
