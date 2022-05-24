@@ -1,0 +1,36 @@
+name: "Update cacert.pem"
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # Midnight - every night
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+
+      - name: Download cacert.pem
+        working-directory: res
+        run: curl -O https://curl.se/ca/cacert.pem
+
+      - name: Check SHA256SUM
+        working-directory: res
+        run: |
+          curl -O https://curl.se/ca/cacert.pem.sha256
+          sha256sum -c cacert.pem.sha256
+          rm -f cacert.pem.sha256
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: 'Update cacert.pem'
+          body: |
+            Update cacert.pem using latest from https://curl.se/docs/caextract.html
+          commit-message: Update cacert.pem
+          delete-branch: true
+          add-paths: |
+            res/cacert.pem
