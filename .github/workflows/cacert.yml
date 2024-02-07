@@ -25,7 +25,7 @@ jobs:
           rm -f cacert.pem.sha256
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
           title: 'Update cacert.pem'
           body: |
