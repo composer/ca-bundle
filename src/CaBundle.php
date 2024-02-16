@@ -95,6 +95,8 @@ class CaBundle
             '/usr/local/etc/ssl/cert.pem', // FreeBSD 10.x
             '/usr/local/etc/openssl/cert.pem', // OS X homebrew, openssl package
             '/usr/local/etc/openssl@1.1/cert.pem', // OS X homebrew, openssl@1.1 package
+            '/opt/homebrew/etc/openssl@3/cert.pem', // macOS silicon homebrew, openssl@3 package
+            '/opt/homebrew/etc/openssl@1.1/cert.pem', // macOS silicon homebrew, openssl@1.1 package
         );
 
         foreach($otherLocations as $location) {
