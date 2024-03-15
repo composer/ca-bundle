@@ -44,6 +44,8 @@ jobs:
       - name: "Install latest dependencies"
         run: "composer update ${{ env.COMPOSER_FLAGS }}"
 
-      - name: Run PHPStan
-        run: |
-          vendor/bin/phpstan analyse
+      - name: "Initialize PHPUnit sources"
+        run: "vendor/bin/simple-phpunit --filter NO_TEST_JUST_AUTOLOAD_THANKS"
+
+      - name: "Run PHPStan"
+        run: "composer phpstan"
