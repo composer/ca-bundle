@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v4
+        with:
+          ref: "1.4"
 
       - name: Download cacert.pem
         working-directory: res

@@ -8,10 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class CaBundleTest extends TestCase
 {
-    /**
-     * @return void
-     */
-    public function testCaPath()
+    public function testCaPath(): void
     {
         $caBundle = new CaBundle();
         $this->resetEnv();
@@ -20,10 +17,7 @@ class CaBundleTest extends TestCase
         $this->assertFileExists($caPath);
     }
 
-    /**
-     * @return void
-     */
-    public function testCaPathNotNull()
+    public function testCaPathNotNull(): void
     {
         $caBundle = new CaBundle();
         $this->resetEnv();
@@ -32,10 +26,7 @@ class CaBundleTest extends TestCase
         $this->assertFileExists($caPathNoNull);
     }
 
-    /**
-     * @return void
-     */
-    public function testCertDir()
+    public function testCertDir(): void
     {
         $caBundle = new CaBundle();
         $caBundle::reset();
@@ -48,10 +39,7 @@ class CaBundleTest extends TestCase
         $this->assertFileExists($sslCertDir);
     }
 
-    /**
-     * @return void
-     */
-    public function testCertFile()
+    public function testCertFile(): void
     {
         $caBundle = new CaBundle();
         $caBundle::reset();
@@ -64,10 +52,7 @@ class CaBundleTest extends TestCase
         $this->assertFileExists($sslCertFile);
     }
 
-    /**
-     * @return void
-     */
-    public function testSslCaFile()
+    public function testSslCaFile(): void
     {
         $sslCaFile = 'openssl.cafile';
         $certFilePath = __DIR__.'/../res/cacert.pem';
@@ -79,10 +64,7 @@ class CaBundleTest extends TestCase
         $this->assertFileExists($openCaFile);
     }
 
-    /**
-     * @return void
-     */
-    public function testSslCaPath()
+    public function testSslCaPath(): void
     {
         $caBundle = new CaBundle();
         $sslCaPath = 'openssl.capath';
@@ -94,10 +76,7 @@ class CaBundleTest extends TestCase
         $this->assertFileExists($openCaPath);
     }
 
-    /**
-     * @return void
-     */
-    public function testValidateCaFile()
+    public function testValidateCaFile(): void
     {
         $certFilePath = __DIR__.'/../res/cacert.pem';
         $caBundle = new CaBundle();
@@ -106,10 +85,7 @@ class CaBundleTest extends TestCase
         $this->assertTrue($validResult);
     }
 
-    /**
-     * @return void
-     */
-    public function testValidateTrustedCaFile()
+    public function testValidateTrustedCaFile(): void
     {
         $certFilePath = __DIR__.'/Fixtures/ca-bundle.trust.crt';
         $caBundle = new CaBundle();
@@ -118,10 +94,7 @@ class CaBundleTest extends TestCase
         $this->assertTrue($validResult);
     }
 
-    /**
-     * @return void
-     */
-    public function testOpenBaseDir()
+    public function testOpenBaseDir(): void
     {
         $oldValue = ini_get('open_basedir') ?: '';
         ini_set('open_basedir', dirname(__DIR__));
@@ -131,19 +104,12 @@ class CaBundleTest extends TestCase
         ini_set('open_basedir', $oldValue);
     }
 
-    /**
-     * @param string $envString
-     * @return void
-     */
-    public function setEnv($envString)
+    public function setEnv(string $envString): void
     {
         putenv($envString);
     }
 
-    /**
-     * @return void
-     */
-    public function resetEnv()
+    public function resetEnv(): void
     {
         $certDir = 'SSL_CERT_DIR=';
         $certFile = 'SSL_CERT_FILE=';
