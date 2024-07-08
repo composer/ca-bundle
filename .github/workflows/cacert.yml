@@ -7,13 +7,17 @@ on:
 
 jobs:
   update:
+    strategy:
+      matrix:
+        branch: [1.4, main]
+
     runs-on: ubuntu-latest
 
     steps:
       - name: "Checkout"
         uses: actions/checkout@v4
         with:
-          ref: "1.4"
+          ref: ${{ matrix.branch }}
 
       - name: Download cacert.pem
         working-directory: res
