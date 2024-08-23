@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: '0 0 * * *' # Midnight - every night
 
+permissions:
+  contents: read
+
 jobs:
   update:
     strategy:
@@ -14,8 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: "Checkout"
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: ${{ matrix.branch }}
 

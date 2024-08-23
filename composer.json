@@ -27,7 +27,7 @@
         "php": "^7.2 || ^8.0"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^4.2 || ^5",
+        "phpunit/phpunit": "^8 || ^9",
         "phpstan/phpstan": "^1.10",
         "psr/log": "^1.0 || ^2.0 || ^3.0",
         "symfony/process": "^4.0 || ^5.0 || ^6.0 || ^7.0"
@@ -48,7 +48,7 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/simple-phpunit",
-        "phpstan": "vendor/bin/phpstan analyse"
+        "test": "@php phpunit",
+        "phpstan": "@php phpstan analyse"
     }
 }

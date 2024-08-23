@@ -1,34 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     backupGlobals="false"
     backupStaticAttributes="false"
-    bootstrap="./vendor/autoload.php"
     colors="true"
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true"
-    processIsolation="false">
-
-    <php>
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[direct]=0"/>
-    </php>
-
+    processIsolation="false"
+    stopOnFailure="false"
+    bootstrap="vendor/autoload.php"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+>
     <testsuites>
-        <testsuite name="Test Suite">
-            <directory suffix=".php">./tests/</directory>
+        <testsuite name="CaBundle Test Suite">
+            <directory>./tests/</directory>
         </testsuite>
     </testsuites>
-
-    <filter>
-        <whitelist>
-            <directory suffix=".php">./src</directory>
-        </whitelist>
-    </filter>
-
-    <logging>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-        <log type="coverage-html" target="report/"/>
-    </logging>
-
+    <coverage>
+        <include>
+            <directory>./src/</directory>
+        </include>
+    </coverage>
 </phpunit>
