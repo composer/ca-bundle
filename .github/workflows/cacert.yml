@@ -40,6 +40,7 @@ jobs:
           body: |
             Update cacert.pem using latest from https://curl.se/docs/caextract.html
           commit-message: Update cacert.pem
+          branch: cacert-update/${{ matrix.branch }}
           delete-branch: true
           add-paths: |
             res/cacert.pem
