@@ -42,5 +42,6 @@ jobs:
           commit-message: Update cacert.pem
           branch: cacert-update/${{ matrix.branch }}
           delete-branch: true
+          sign-commits: true
           add-paths: |
             res/cacert.pem
