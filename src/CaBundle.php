@@ -82,9 +82,8 @@ class CaBundle
 
         $otherLocations = array(
             '/etc/pki/tls/certs/ca-bundle.crt', // Fedora, RHEL, CentOS (ca-certificates package)
-            '/etc/ssl/certs/ca-certificates.crt', // Debian, Ubuntu, Gentoo, Arch Linux (ca-certificates package)
+            '/etc/ssl/certs/ca-certificates.crt', // Debian, Ubuntu, Gentoo, Arch Linux (ca-certificates package), FreeBSD (only the /etc/ssl/certs dir which gets added below)
             '/etc/ssl/ca-bundle.pem', // SUSE, openSUSE (ca-certificates package)
-            '/etc/ssl/certs', // FreeBSD
             '/usr/ssl/certs/ca-bundle.crt', // Cygwin
             '/opt/local/share/curl/curl-ca-bundle.crt', // OS X macports, curl-ca-bundle package
             '/usr/local/share/curl/curl-ca-bundle.crt', // Default cURL CA bunde path (without --with-ca-bundle option)
