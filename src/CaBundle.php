@@ -82,7 +82,7 @@ class CaBundle
 
         $otherLocations = array(
             '/etc/pki/tls/certs/ca-bundle.crt', // Fedora, RHEL, CentOS (ca-certificates package)
-            '/etc/ssl/certs/ca-certificates.crt', // Debian, Ubuntu, Gentoo, Arch Linux (ca-certificates package), FreeBSD (only the /etc/ssl/certs dir which gets added below)
+            '/etc/ssl/certs/ca-certificates.crt', // Debian, Ubuntu, Gentoo, Arch Linux (ca-certificates package)
             '/etc/ssl/ca-bundle.pem', // SUSE, openSUSE (ca-certificates package)
             '/usr/ssl/certs/ca-bundle.crt', // Cygwin
             '/opt/local/share/curl/curl-ca-bundle.crt', // OS X macports, curl-ca-bundle package
@@ -93,11 +93,9 @@ class CaBundle
             '/usr/local/etc/openssl@1.1/cert.pem', // OS X homebrew, openssl@1.1 package
             '/opt/homebrew/etc/openssl@3/cert.pem', // macOS silicon homebrew, openssl@3 package
             '/opt/homebrew/etc/openssl@1.1/cert.pem', // macOS silicon homebrew, openssl@1.1 package
+            '/etc/pki/tls/certs',
+            '/etc/ssl/certs', // FreeBSD
         );
-
-        foreach($otherLocations as $location) {
-            $otherLocations[] = dirname($location);
-        }
 
         $caBundlePaths = array_merge($caBundlePaths, $otherLocations);
 
