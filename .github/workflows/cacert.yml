@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   update:
+    if: ${{ github.repository_owner == 'composer' && github.ref == 'refs/heads/main' }}
     strategy:
       matrix:
         branch: [1.4, main]
