@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Composer\CaBundle;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Process\PhpProcess;
 use PHPUnit\Framework\TestCase;
 
-class CaBundleTest extends TestCase
+final class CaBundleTest extends TestCase
 {
     public function testCaPath(): void
     {
@@ -113,8 +115,6 @@ class CaBundleTest extends TestCase
     {
         $certDir = 'SSL_CERT_DIR=';
         $certFile = 'SSL_CERT_FILE=';
-        $sslCaFile = 'openssl.cafile';
-        $sslCaPath = 'openssl.capath';
 
         $this->setEnv($certDir);
         $this->setEnv($certFile);
