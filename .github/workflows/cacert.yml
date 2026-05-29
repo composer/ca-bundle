@@ -5,13 +5,25 @@ on:
   schedule:
     - cron: '0 0 * * *' # Midnight - every night
 
+permissions:
+  contents: read
+
 jobs:
   update:
+    name: "Update cacert.pem"
+    permissions:
+      contents: write # pushes the cacert-update branch
+      pull-requests: write # opens the update PR via gh
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     runs-on: ubuntu-latest
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: true # needed so the job can push the update branch and open the PR
 
       - name: Download cacert.pem
         working-directory: res
@@ -25,12 +37,23 @@ jobs:
           rm -f cacert.pem.sha256
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          title: 'Update cacert.pem'
-          body: |
-            Update cacert.pem using latest from https://curl.se/docs/caextract.html
-          commit-message: Update cacert.pem
-          delete-branch: true
-          add-paths: |
-            res/cacert.pem
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE: ${{ github.ref_name }}
+          BRANCH: cacert-update/${{ github.ref_name }}
+        run: |
+          if git diff --quiet -- res/cacert.pem; then
+            echo "cacert.pem is already up to date"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -C "$BRANCH"
+          git add res/cacert.pem
+          git commit -m "Update cacert.pem"
+          git push --force-with-lease origin "$BRANCH"
+          if [ -z "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')" ]; then
+            gh pr create --base "$BASE" --head "$BRANCH" \
+              --title "Update cacert.pem" \
+              --body "Update cacert.pem using latest from https://curl.se/docs/caextract.html"
+          fi
