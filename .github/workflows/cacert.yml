@@ -51,6 +51,8 @@ jobs:
             echo "cacert.pem is already up to date"
             exit 0
           fi
+          DATE=$(grep -m1 'Certificate data from Mozilla as of:' res/cacert.pem | sed 's/.*as of: *//')
+          ISO_DATE=$(date -u -d "$DATE" +%Y-%m-%d)
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -C "$BRANCH"
@@ -59,6 +61,6 @@ jobs:
           git push --force-with-lease origin "$BRANCH"
           if [ -z "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')" ]; then
             gh pr create --base "$BASE" --head "$BRANCH" \
-              --title "Update cacert.pem" \
+              --title "Update cacert.pem to $ISO_DATE" \
               --body "Update cacert.pem using latest from https://curl.se/docs/caextract.html"
           fi
