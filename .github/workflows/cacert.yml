@@ -58,7 +58,7 @@ jobs:
           git switch -C "$BRANCH"
           git add res/cacert.pem
           git commit -m "Update cacert.pem"
-          git push --force-with-lease origin "$BRANCH"
+          git push --force origin "$BRANCH"
           if [ -z "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')" ]; then
             gh pr create --base "$BASE" --head "$BRANCH" \
               --title "Update cacert.pem to $ISO_DATE" \
