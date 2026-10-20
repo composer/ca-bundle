@@ -23,6 +23,31 @@ class CaBundleTest extends TestCase
     /**
      * @return void
      */
+    public function testFindDistrustedCertificate()
+    {
+        $ev = (string) file_get_contents(__DIR__.'/Fixtures/distrusted/em-ev-tls-ca-g3b.pem');
+        $ov = (string) file_get_contents(__DIR__.'/Fixtures/distrusted/em-ov-tls-ca-g3b.pem');
+
+        $this->assertSame('EM EV TLS CA - G3B', CaBundle::findDistrustedCertificate(array($ev)));
+        $this->assertSame('EM OV TLS CA - G3B', CaBundle::findDistrustedCertificate(array('garbage', $ov, $ev)));
+        $this->assertSame('EM EV TLS CA - G3B', CaBundle::findDistrustedCertificate(array(openssl_x509_read($ev))));
+    }
+
+    /**
+     * @return void
+     */
+    public function testFindDistrustedCertificateIgnoresTrustedCertificates()
+    {
+        preg_match_all('{-----BEGIN CERTIFICATE-----.+?-----END CERTIFICATE-----}s', (string) file_get_contents(CaBundle::getBundledCaBundlePath()), $match);
+
+        $this->assertGreaterThan(100, count($match[0]));
+        $this->assertNull(CaBundle::findDistrustedCertificate($match[0]));
+        $this->assertNull(CaBundle::findDistrustedCertificate(array()));
+    }
+
+    /**
+     * @return void
+     */
     public function testCaPathNotNull()
     {
         $caBundle = new CaBundle();
