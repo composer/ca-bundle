@@ -273,8 +273,10 @@ class CaBundle
     {
         $offset = 0;
         // enter Certificate and tbsCertificate
-        if (null === self::readDerHeader($der, $offset) || null === self::readDerHeader($der, $offset)) {
-            return null;
+        for ($i = 0; $i < 2; $i++) {
+            if (null === self::readDerHeader($der, $offset)) {
+                return null;
+            }
         }
 
         $fieldsToSkip = isset($der[$offset]) && ord($der[$offset]) === 0xA0 ? 6 : 5;
