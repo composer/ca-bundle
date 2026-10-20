@@ -27,7 +27,9 @@ class CaBundleTest extends TestCase
     {
         $ev = (string) file_get_contents(__DIR__.'/Fixtures/distrusted/em-ev-tls-ca-g3b.pem');
         $ov = (string) file_get_contents(__DIR__.'/Fixtures/distrusted/em-ov-tls-ca-g3b.pem');
-        preg_match('{-----BEGIN CERTIFICATE-----.+?-----END CERTIFICATE-----}s', (string) file_get_contents(CaBundle::getBundledCaBundlePath()), $trusted);
+        if (!preg_match('{-----BEGIN CERTIFICATE-----.+?-----END CERTIFICATE-----}s', (string) file_get_contents(CaBundle::getBundledCaBundlePath()), $trusted)) {
+            $this->fail('No certificate found in the bundled CA file');
+        }
 
         $this->assertSame('EM EV TLS CA - G3B', CaBundle::findDistrustedCertificate(array($ev)));
         $this->assertSame('EM OV TLS CA - G3B', CaBundle::findDistrustedCertificate(array('garbage', $ov, $ev)));
