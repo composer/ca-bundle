@@ -337,17 +337,20 @@ EOT;
     public static function findDistrustedCertificate(array $chain)
     {
         foreach ($chain as $cert) {
-            if (!is_string($cert)) {
+            if (self::isX509Certificate($cert)) {
                 if (!function_exists('openssl_x509_export') || !openssl_x509_export($cert, $pem)) {
                     continue;
                 }
                 $cert = $pem;
+            } elseif (!is_string($cert)) {
+                continue;
             }
 
-            $der = self::pemToDer($cert);
-            $spki = null !== $der ? self::extractSpki($der) : null;
-            if (null !== $spki && isset(self::$distrustedSpkiSha256[$hash = hash('sha256', $spki)])) {
-                return self::$distrustedSpkiSha256[$hash];
+            foreach (self::pemToDer($cert) as $der) {
+                $spki = self::extractSpki($der);
+                if (null !== $spki && isset(self::$distrustedSpkiSha256[$hash = hash('sha256', $spki)])) {
+                    return self::$distrustedSpkiSha256[$hash];
+                }
             }
         }
 
@@ -355,21 +358,39 @@ EOT;
     }
 
     /**
-     * @param  string $pem
-     * @return string|null
+     * Checks for an OpenSSLCertificate (PHP 8+) or OpenSSL X.509 resource (PHP < 8)
+     *
+     * @param  mixed $cert
+     * @return bool
+     */
+    private static function isX509Certificate($cert)
+    {
+        return $cert instanceof \OpenSSLCertificate || (is_resource($cert) && get_resource_type($cert) === 'OpenSSL X.509');
+    }
+
+    /**
+     * @param  string       $pem one or more PEM encoded certificates
+     * @return list<string>
      */
     private static function pemToDer($pem)
     {
-        $start = strpos($pem, '-----BEGIN CERTIFICATE-----');
-        $end = strpos($pem, '-----END CERTIFICATE-----');
-        if (false === $start || false === $end) {
-            return null;
+        $ders = array();
+        $offset = 0;
+        while (false !== ($start = strpos($pem, '-----BEGIN CERTIFICATE-----', $offset))) {
+            $start += strlen('-----BEGIN CERTIFICATE-----');
+            $end = strpos($pem, '-----END CERTIFICATE-----', $start);
+            if (false === $end) {
+                break;
+            }
+            $offset = $end + strlen('-----END CERTIFICATE-----');
+
+            $der = base64_decode(substr($pem, $start, $end - $start), true);
+            if (false !== $der) {
+                $ders[] = $der;
+            }
         }
-        $start += strlen('-----BEGIN CERTIFICATE-----');
 
-        $der = base64_decode(substr($pem, $start, $end - $start), true);
-
-        return false === $der ? null : $der;
+        return $ders;
     }
 
     /**
@@ -385,7 +406,7 @@ EOT;
         $offset = 0;
         // enter Certificate and tbsCertificate
         for ($i = 0; $i < 2; $i++) {
-            if (null === self::readDerHeader($der, $offset)) {
+            if (!self::isSequenceAt($der, $offset) || null === self::readDerHeader($der, $offset)) {
                 return null;
             }
         }
@@ -400,12 +421,25 @@ EOT;
         }
 
         $start = $offset;
+        if (!self::isSequenceAt($der, $offset)) {
+            return null;
+        }
         $length = self::readDerHeader($der, $offset);
         if (null === $length) {
             return null;
         }
 
         return substr($der, $start, $offset - $start + $length);
+    }
+
+    /**
+     * @param  string $der
+     * @param  int    $offset
+     * @return bool
+     */
+    private static function isSequenceAt($der, $offset)
+    {
+        return isset($der[$offset]) && ord($der[$offset]) === 0x30;
     }
 
     /**
@@ -418,15 +452,17 @@ EOT;
      */
     private static function readDerHeader($der, &$offset)
     {
-        if (!isset($der[$offset + 1])) {
+        // high tag numbers (multi-byte tags) do not occur in the fields we walk
+        if (!isset($der[$offset + 1]) || (ord($der[$offset]) & 0x1F) === 0x1F) {
             return null;
         }
 
         $length = ord($der[$offset + 1]);
         $offset += 2;
         if (($length & 0x80) !== 0) {
+            // max 3 length bytes (16MB) so the length cannot overflow on 32-bit PHP
             $bytes = $length & 0x7F;
-            if ($bytes === 0 || $bytes > 4 || !isset($der[$offset + $bytes - 1])) {
+            if ($bytes === 0 || $bytes > 3 || !isset($der[$offset + $bytes - 1])) {
                 return null;
             }
             $length = 0;

@@ -27,10 +27,14 @@ class CaBundleTest extends TestCase
     {
         $ev = (string) file_get_contents(__DIR__.'/Fixtures/distrusted/em-ev-tls-ca-g3b.pem');
         $ov = (string) file_get_contents(__DIR__.'/Fixtures/distrusted/em-ov-tls-ca-g3b.pem');
+        preg_match('{-----BEGIN CERTIFICATE-----.+?-----END CERTIFICATE-----}s', (string) file_get_contents(CaBundle::getBundledCaBundlePath()), $trusted);
 
         $this->assertSame('EM EV TLS CA - G3B', CaBundle::findDistrustedCertificate(array($ev)));
         $this->assertSame('EM OV TLS CA - G3B', CaBundle::findDistrustedCertificate(array('garbage', $ov, $ev)));
         $this->assertSame('EM EV TLS CA - G3B', CaBundle::findDistrustedCertificate(array(openssl_x509_read($ev))));
+        $this->assertSame('EM OV TLS CA - G3B', CaBundle::findDistrustedCertificate(array($trusted[0] . "\n" . $ov)));
+        $this->assertSame('EM OV TLS CA - G3B', CaBundle::findDistrustedCertificate(array("x\n-----END CERTIFICATE-----\n" . $ov)));
+        $this->assertSame('EM OV TLS CA - G3B', CaBundle::findDistrustedCertificate(array(123, null, array(), new \stdClass(), $ov)));
     }
 
     /**
