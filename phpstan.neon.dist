@@ -3,3 +3,9 @@ parameters:
     paths:
         - src
         - tests
+    ignoreErrors:
+        # only exists on PHP 8+
+        -
+            message: '#^Class OpenSSLCertificate not found\.$#'
+            path: src/CaBundle.php
+            reportUnmatched: false

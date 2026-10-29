@@ -365,7 +365,7 @@ EOT;
      */
     private static function isX509Certificate($cert)
     {
-        return is_a($cert, 'OpenSSLCertificate') || (is_resource($cert) && get_resource_type($cert) === 'OpenSSL X.509');
+        return $cert instanceof \OpenSSLCertificate || (is_resource($cert) && get_resource_type($cert) === 'OpenSSL X.509');
     }
 
     /**
