@@ -3,3 +3,8 @@ parameters:
     paths:
         - src
         - tests
+    ignoreErrors:
+        # only exists on PHP 8+, and PHPStan only runs on 7.4 here
+        -
+            message: '#^Class OpenSSLCertificate not found\.$#'
+            path: src/CaBundle.php
