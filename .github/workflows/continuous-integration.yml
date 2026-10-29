@@ -29,9 +29,13 @@ jobs:
           - "8.2"
           - "8.3"
           - "8.4"
+          - "8.5"
         experimental: [false]
         os: [ubuntu-latest]
         include:
+          - php-version: "nightly"
+            os: ubuntu-latest
+            experimental: true
           - php-version: "8.3"
             os: windows-latest
             experimental: false
